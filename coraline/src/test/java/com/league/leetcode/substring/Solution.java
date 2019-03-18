@@ -2,6 +2,9 @@ package com.league.leetcode.substring;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by coraline on 2019/3/4.
  */
@@ -29,6 +32,7 @@ public class Solution {
 
     @Test
     public void test() {
+        Map map = new HashMap<String,String>();
         String s = "pwwkew";
         System.out.println(lengthOfLongestSubstring(s));
 

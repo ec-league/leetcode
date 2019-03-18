@@ -8,22 +8,21 @@ public class HammingDistance {
     public static int hammingDistance(int x, int y) {
 
         int count = 0;
-        int loop = 0;
         int temp = 0;
         int z = x ^ y;
-        while (temp < Math.pow(2, 32)) {
-            temp = (int) Math.pow(2, loop) * z;
-            if(temp == 1){
+        for (int loop = 0; loop < 31; loop++) {
+            int self = (int) Math.pow(2, loop);
+            temp = self & z;
+            if (temp == self) {
                 count++;
             }
         }
-        loop++;
         return count;
     }
 
     public static void main(String[] args) {
-        int x = 1;
-        int y = 4;
+        int x = 0;
+        int y = 2147483647;
         int distance = hammingDistance(x, y);
         System.out.println(distance);
     }
