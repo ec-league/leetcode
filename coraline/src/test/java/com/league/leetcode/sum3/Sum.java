@@ -36,6 +36,7 @@ public class Sum {
         return ret;
     }
 
+
     private static List<List<Integer>> getNumsList(int[] nums, int i, Map<String, Integer> combinationMap) {
         int low = 0;
         int high = nums.length - 1;
@@ -73,6 +74,52 @@ public class Sum {
         }
         return loopList;
     }
+
+    private static int[] sort(int[] nums) {
+        if (null == nums || 2 > nums.length) {
+            return nums;
+        }
+        int low = 0;
+        int high = nums.length - 1;
+        quickSort(nums, low, high);
+        return nums;
+
+    }
+
+    private static void quickSort(int[] nums, int low, int high) {
+        if (low >= high) {
+            return;
+        }
+        int current = low;
+        int currentNum = nums[current];
+        int i = low;
+        int j = high;
+        while (i < j) {
+            while (i < j && nums[j] >= currentNum) {
+                j--;
+            }
+
+            if (i < j) {
+                int temp = nums[j];
+                nums[j] = currentNum;
+                nums[i] = temp;
+                current = j;
+            }
+            while (i < j && nums[i] <= currentNum) {
+                i++;
+            }
+            if (i < j) {
+                int temp = nums[i];
+                nums[i] = currentNum;
+                nums[j] = temp;
+                current = i;
+            }
+        }
+
+        quickSort(nums, low, current);
+        quickSort(nums, current + 1, high);
+    }
+
 
     public static void main(String[] args) {
         int[] nums = {-1, 0, 1, 2, -1, -4};
