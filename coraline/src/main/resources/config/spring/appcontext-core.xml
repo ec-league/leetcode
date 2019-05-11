@@ -8,6 +8,11 @@
 
     <context:component-scan base-package="com.league.spring"/>
     <context:annotation-config/>
+
+    <bean id="prototypeBean" class="com.league.prototype.PrototypeBean" scope="prototype"></bean>
+    <bean id="lookup" class="com.league.prototype.LookUp">
+        <lookup-method name="getPrototypeBean" bean="prototypeBean" />
+    </bean>
 </beans>
 
 

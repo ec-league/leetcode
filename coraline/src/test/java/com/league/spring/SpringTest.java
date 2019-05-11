@@ -1,5 +1,6 @@
 package com.league.spring;
 
+import com.league.prototype.PrototypeBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SpringTest {
 
     @Autowired
-    private SpringBean springBean;
+    private PrototypeBean prototypeBean;
 
     @Test
     public void test(){
-         springBean.tt();
+         prototypeBean.print();
     }
 
 
