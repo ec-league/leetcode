@@ -11,7 +11,7 @@ public class Sum {
         if (null == nums || nums.length < 3) {
             return new ArrayList<>();
         }
-        //sort the array
+        //p910_sort the array
         Arrays.sort(nums);
         //double points
         List<List<Integer>> ret = getNumLists(nums);
@@ -126,7 +126,7 @@ public class Sum {
         List<List<Integer>> list = threeSum(nums);
         System.out.println(list.toString());
 //        int[] nums = {-1, 0, 1, 2, -1, -4};
-//        int[] sortedNums = sort(nums);
+//        int[] sortedNums = p910_sort(nums);
 //        for (int i = 0; i < sortedNums.length; i++) {
 //            System.out.println(sortedNums[i]);
 //        }
