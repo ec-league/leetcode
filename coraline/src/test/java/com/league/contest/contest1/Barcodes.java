@@ -8,61 +8,86 @@ public class Barcodes {
         if (barcodes.length < 3) {
             return barcodes;
         }
-        Map barcodesMap = new HashMap<Integer, Integer>();
-        Integer maxCode = 0;
-        Integer maxCodeCount = 0;
+        //优先级队列
+        Map<Integer, Integer> barcodesMap = new HashMap();
+
         for (int i = 0; i < barcodes.length; i++) {
             if (barcodesMap.get(barcodes[i]) == null) {
                 barcodesMap.put(barcodes[i], 1);
             } else {
-                Integer codeCount = (Integer) barcodesMap.get(barcodes[i]);
+                Integer codeCount = barcodesMap.get(barcodes[i]);
                 codeCount++;
-                if (codeCount > maxCodeCount) {
-                    maxCode = barcodes[i];
-                    maxCodeCount = codeCount;
-                }
                 barcodesMap.put(barcodes[i], codeCount);
             }
-
         }
-        int[] rearrangeArr = new int[barcodes.length];
+        Iterator it = barcodesMap.keySet().iterator();
+        List<Node> nodes = new ArrayList<>();
+//        while (it.hasNext()) {
+//            Node node = new Node();
+//            node.setCount(barcodesMap.get(it.next()));
+//            node.setCode((Integer) it);
+//            nodes.add(node);
+//        }
+        sort(nodes);
         List<Integer> rearrangedList = new ArrayList<>();
-        Arrays.sort(barcodes);
-        int low = -1;
-        int high = Integer.MAX_VALUE;
-        for (int i = 0; i < barcodes.length; i++) {
-            if (barcodes[i] == maxCode && low == -1 && high == Integer.MAX_VALUE) {
-                low = i;
-            } else if (barcodes[i] == maxCode) {
-                high = i;
-            }
-        }
-        int j = 0;
-        int i = low;
-        while (i <= high || j < barcodes.length) {
-            for (; i <= high; ) {
-                rearrangedList.add(barcodes[i]);
-                i++;
-                break;
-            }
-            for (; j < barcodes.length; ) {
-                if (barcodes[j] == maxCode) {
-                    j++;
-                    continue;
+        int lastAddCode = Integer.MAX_VALUE;
+        while (nodes.size() > 0) {
+            if (!nodes.get(0).getCode().equals(lastAddCode)) {
+                rearrangedList.add(nodes.get(0).getCode());
+                int count = nodes.get(0).getCount() - 1;
+                if (count == 0) {
+                    nodes.remove(0);
                 }
-                rearrangedList.add(barcodes[j]);
-                j++;
-                break;
+                rearrangedList.add(nodes.get(1).getCode());
+                lastAddCode = nodes.get(1).getCode();
+                count = nodes.get(1).getCount() - 1;
+                nodes.get(1).setCount(count);
+                if (count == 0) {
+                    nodes.remove(0);
+                }
+                sort(nodes);
+            } else {
+                rearrangedList.add(nodes.get(1).getCode());
+                int count = nodes.get(1).getCount() - 1;
+                nodes.get(1).setCount(count);
+                if (count == 0) {
+                    nodes.remove(0);
+                }
+                rearrangedList.add(nodes.get(0).getCode());
+                lastAddCode = nodes.get(0).getCode();
+                count = nodes.get(0).getCount() - 1;
+                nodes.get(0).setCount(count);
+                if (count == 0) {
+                    nodes.remove(0);
+                }
+                sort(nodes);
             }
 
         }
 
 
-        for (int k = 0; k < barcodes.length; k++) {
-            rearrangeArr[k] = rearrangedList.get(k);
-        }
+        int[] rearrangeArr = new int[barcodes.length];
+
 
         return rearrangeArr;
+    }
+
+    private static void sort(List<Node> nodes) {
+        Collections.sort(nodes, (o1, o2) -> {
+            if (o1 == null || o2 == null) {
+                return -1;
+            }
+            if (o1.getCount() > o2.getCount()) {
+                return 1;
+            }
+            if (o1.getCount() < o2.getCount()) {
+                return -1;
+            }
+            if (o1.getCount() == o2.getCount()) {
+                return 0;
+            }
+            return 0;
+        });
     }
 
     public static void main(String[] args) {
@@ -72,6 +97,29 @@ public class Barcodes {
             System.out.println(rearrangeArr[i]);
 
         }
+
+    }
+
+    static class Node {
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public void setCode(Integer code) {
+            this.code = code;
+        }
+
+        public Integer getCount() {
+            return count;
+        }
+
+        public void setCount(Integer count) {
+            this.count = count;
+        }
+
+        private Integer code;
+        private Integer count;
 
     }
 }
