@@ -5,61 +5,68 @@ import java.util.*;
 public class Barcodes {
 
     public static int[] rearrangeBarcodes(int[] barcodes) {
+        if (barcodes.length < 3) {
+            return barcodes;
+        }
         Map barcodesMap = new HashMap<Integer, Integer>();
+        Integer maxCode = 0;
+        Integer maxCodeCount = 0;
         for (int i = 0; i < barcodes.length; i++) {
             if (barcodesMap.get(barcodes[i]) == null) {
                 barcodesMap.put(barcodes[i], 1);
             } else {
                 Integer codeCount = (Integer) barcodesMap.get(barcodes[i]);
                 codeCount++;
+                if (codeCount > maxCodeCount) {
+                    maxCode = barcodes[i];
+                    maxCodeCount = codeCount;
+                }
                 barcodesMap.put(barcodes[i], codeCount);
             }
 
         }
         int[] rearrangeArr = new int[barcodes.length];
-
-
-        Iterator it = barcodesMap.keySet().iterator();
-        List<Integer> codes = new ArrayList();
-        Integer bigestSizeCode = 0;
-        Integer maxSize = 0;
-
-        while (it.hasNext()) {
-            codes.add((Integer) it.next());
-            if ((Integer)barcodesMap.get(it.next()) > maxSize) {
-                maxSize = (Integer) barcodesMap.get(it.next());
-                bigestSizeCode = (Integer) it.next();
-            }
-        }
-        boolean flag = false;
+        List<Integer> rearrangedList = new ArrayList<>();
+        Arrays.sort(barcodes);
+        int low = -1;
+        int high = Integer.MAX_VALUE;
         for (int i = 0; i < barcodes.length; i++) {
-            if (!flag && !barcodesMap.get(bigestSizeCode).equals(new Integer(0))) {
-                rearrangeArr[i] = bigestSizeCode;
-                flag = true;
-                Integer codeCount = (Integer) barcodesMap.get(bigestSizeCode);
-                codeCount--;
-                barcodesMap.put(bigestSizeCode, codeCount);
-                continue;
+            if (barcodes[i] == maxCode && low == -1 && high == Integer.MAX_VALUE) {
+                low = i;
+            } else if (barcodes[i] == maxCode) {
+                high = i;
             }
-            flag = false;
-            Integer mod = i % (codes.size() -1);
-            while(codes.get(mod).equals(bigestSizeCode) || barcodesMap.get(codes.get(mod)).equals(new Integer(0))){
-                mod++;
+        }
+        int j = 0;
+        int i = low;
+        while (i <= high || j < barcodes.length) {
+            for (; i <= high; ) {
+                rearrangedList.add(barcodes[i]);
+                i++;
+                break;
             }
-            rearrangeArr[i] = codes.get(mod);
-            Integer codeCount = (Integer) barcodesMap.get(codes.get(mod));
-            codeCount--;
-            barcodesMap.put(codes.get(mod), codeCount);
-
+            for (; j < barcodes.length; ) {
+                if (barcodes[j] == maxCode) {
+                    j++;
+                    continue;
+                }
+                rearrangedList.add(barcodes[j]);
+                j++;
+                break;
+            }
 
         }
 
+
+        for (int k = 0; k < barcodes.length; k++) {
+            rearrangeArr[k] = rearrangedList.get(k);
+        }
 
         return rearrangeArr;
     }
 
     public static void main(String[] args) {
-        int[] barcodes = {1, 1, 1, 1, 2, 2, 3, 3};
+        int[] barcodes = {7, 7, 7, 8, 5, 7, 5, 5, 5, 8};
         int[] rearrangeArr = rearrangeBarcodes(barcodes);
         for (int i = 0; i < rearrangeArr.length; i++) {
             System.out.println(rearrangeArr[i]);
