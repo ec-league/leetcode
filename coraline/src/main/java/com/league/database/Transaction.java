@@ -1,17 +1,20 @@
 package com.league.database;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 /**
  * Created by coraline on 2019/5/27.
  */
 public class Transaction {
-    private static int count = 1;
+    private int count = 1;
 
     @Transactional(rollbackFor = RuntimeException.class)
     public void a() {
         count = 2;
         b();
+        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
@@ -29,6 +32,6 @@ public class Transaction {
 
         }
 
-        System.out.println(count);
+        System.out.println(t.count);
     }
 }
