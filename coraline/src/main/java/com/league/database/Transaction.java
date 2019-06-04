@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by coraline on 2019/5/27.
  */
 public class Transaction {
-    private int count = 1;
+    private static int count = 1;
 
     @Transactional(rollbackFor = RuntimeException.class)
     public void a() {
@@ -22,7 +22,13 @@ public class Transaction {
 
     public static void main(String[] args) {
         Transaction t = new Transaction();
-        t.a();
-        System.out.println(1);
+        try{
+            t.a();
+        }
+        catch(Exception ex){
+
+        }
+
+        System.out.println(count);
     }
 }
