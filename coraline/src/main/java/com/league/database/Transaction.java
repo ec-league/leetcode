@@ -13,13 +13,14 @@ public class Transaction {
     public void a() {
         count = 2;
         b();
-        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+
 
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
     private void b() {
         count = 3;
+        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         throw new RuntimeException("oooooops");
     }
 
