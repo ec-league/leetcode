@@ -8,6 +8,7 @@ public class Barcodes {
         if (barcodes.length < 3) {
             return barcodes;
         }
+        Math.pow(2,2);
         //优先级队列
         Map<Integer, Integer> barcodesMap = new HashMap();
 
