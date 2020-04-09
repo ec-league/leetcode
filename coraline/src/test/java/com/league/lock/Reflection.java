@@ -1,4 +1,4 @@
-package com.league.basic;
+package com.league.lock;
 
 /**
  * Created by coraline on 2019/5/13.
