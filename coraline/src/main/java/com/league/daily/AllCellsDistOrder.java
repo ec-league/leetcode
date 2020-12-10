@@ -24,6 +24,8 @@ public class AllCellsDistOrder {
             }
         }
 
+
+
         int[][] arr = new int[R * C][];
         Iterator it = treeMap.keySet().iterator();
         int count = 0;
